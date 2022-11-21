@@ -9,6 +9,7 @@
   margin: 0;
   padding: 0;
 }
+
 input, textarea{
   outline: none;
 }
@@ -25,9 +26,69 @@ html,body{
   width: 80%;
   height: 100%;
   margin: 0 auto;
-  display: flex;
+  /* display: flex; */
   position: relative;
 }
+
+/* modal */
+.modal{
+  width: 600px;
+  max-height: 450px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+  background: #fff;
+  border-radius: 30px;
+  display: none;
+  padding: 30px;
+}
+
+.modal_bg{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: blur(5px);
+  display: none;
+}
+
+.modal-body{
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#modalThumbnail{
+  float: left;
+  width: 35%;
+  border-radius: 10px;
+  transform: translateY(10%);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 10px;
+
+}
+
+#modalInfo{
+  float: right;
+  width: 60%;
+  font-size: 14px;
+}
+
+#modalTitle{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#modalDate{
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+  color: #aaa;
+}
+
 
 /* 왼쪽 검색 섹션 */
 #section_left{
@@ -42,79 +103,84 @@ html,body{
 
 #wrap{
   width: 80%;
-  height:60%;
   justify-content: center;
   align-items: center;
-  /* display: flex; */
-  /* flex-flow: column wrap; */
-  /* justify-content:flex-start; */
-  /* align-items: flex-start; */
 }
 
 .mainTitle{
   opacity: 0;
-  transition: 5s;
   margin-bottom: 50px;
+  /* transition: 5s; */
 }
-
 
 
 #title{
   font-size: 15px;
   margin-top: 20px;
 }
+#author{
+  font-size: 12px;
+  color: #aaa;
+  margin-top: -10px;
+  margin-bottom: 0;
+}
 
 #commentForm{
   display: block;
-  flex-direction: column;
+  width: 300px;
 }
 
 #comment{
   resize: none;
   background: inherit;
-  border-radius: 2px;
-  border: 1px solid #111;
+  border-radius: 10px;
+  border: 1px solid #BCA888;
   letter-spacing: 1px;
-  padding: 5px;
-
+  padding: 5px 10px;
+  width: 80%;
+  font-size: 14px;
 }
 
 #commentSaveBt{
-  width: 50px;
+  width: 60px;
   height: 30px;
   margin-top: 10px;
-  border:1px solid #B05044;
+  border-radius: 20px;
+  background: #BCA888;
+  border: none;
+  color: #fff;
+  font-size: 13px;
 }
 
 /* search bar */
-:focus{outline: none;}
-
-.input-container{float: left; width: 300px; margin: 20px 0; position: relative;} 
+.input-container{width: 300px; margin: 15px 0; position: relative;} 
 
 input[type="text"] {
-  font: 15px/24px;
-  color: #1d9af2;
+  font-size: 14px;
+  color: #111;
   width: 70%;
   box-sizing: border-box;
   letter-spacing: 1px;
   background-color: inherit;
-  border: none;
+  border: 1px solid #BCA888;
+  border-radius: 10px;
+  padding: 5px 0 5px 30px;
 }
 
-.effect-1~.focus-border {
+.input-container::before{
+  background: url("../images/search.png") no-repeat;
+  background-size: 17px;
+  content: "";
+  display: inline-block;
+  height: 25px;
+  width: 25px;
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: #3399FF;
-  transition: 0.4s;
+  margin: 8px 10px;
 }
 
-.effect-1:focus~.focus-border {
-  width: 70%;
-  transition: 0.4s;
-}
+
+
+
 
 .searchResult img{
   border-radius: 3px;
@@ -145,6 +211,7 @@ input[type="text"] {
   color: #fff;
   padding: 10px;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .commentBox{
@@ -158,9 +225,130 @@ input[type="text"] {
 }
 
 /* 태블릿용 css */
-@media all and (max-width:768px) {  }
+/* @media all and (max-width:768px) { } */
 
 
 
 /* 모바일용 css */
-@media all and (max-width:320px) { }
+@media all and (max-width:768px) { 
+
+  html,body{
+    background-color: #fff;
+  }
+
+  #wrapper{
+    width: 100%;
+  }
+
+  .modal{
+    width: 70%;
+    max-height: 550px;
+    /* position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99999;
+    background: #fff;
+    border-radius: 30px;
+    display: none;
+    padding: 30px; */
+  }
+
+  
+  .modal-body{
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  #modalThumbnail{
+    float: none;
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    transform: translateY(0);
+  }
+  
+  #modalInfo{
+    float: none;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  #modalTitle{
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  #modalDate{
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    color: #aaa;
+  }
+
+
+
+
+
+
+  #section_left{
+    width: 100%;
+    height: 180px;
+    background: #F0E4D8;
+    position: relative;
+    /* border-radius: 0  0 40px 40px; */
+    display: block;
+    position: fixed;
+    padding: 50px;
+    z-index: 99;
+  }
+
+
+  #section_right{
+    width: 100%;
+    height: 75%;
+    position: absolute;
+    margin-top: 180px;
+  }
+
+  .searchResult{
+    display: none;
+    position: absolute;
+    width: 45%;
+    margin-top: 55px;
+    padding: 0 10px;
+    text-align: center;
+    margin-left: -30px;
+  }
+
+
+  #commentForm{
+    display: none;
+    position: absolute;
+    width: 45%;
+    left: 50%;
+    margin-top: 5px
+  }
+
+  #commentSaveBt{
+    float: right;
+    margin-right: 20%;
+  }
+
+
+  .mainTitle{
+    margin-bottom: 25px;
+    transition: 5s;
+  }
+
+  input[type="text"] {
+    width: 380px;
+  }
+
+  #container{
+    width: 90%;
+    margin: 0 auto;
+  }
+}

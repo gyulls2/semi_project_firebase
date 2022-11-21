@@ -15,9 +15,6 @@
       crossorigin="anonymous"
     />
 
-    <!-- 외부 CSS -->
-    <link rel="stylesheet" href="./css/index.css" />
-
     <!-- favicon -->
     <link rel="shortcut icon" href="#" />
 
@@ -27,48 +24,35 @@
     <!-- masonry CDN -->
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
+    <!-- 외부 CSS -->
+    <link rel="stylesheet" href="./css/index.css" />
     <title>Document</title>
   </head>
   <body onload="fadeIn()">
-    <div id="wrapper">
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="bookInfoModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-scrollable">
-          <div class="modal-content">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-            <div class="modal-body">
-              <div><img src="" alt="" id="modalThumbnail" /></div>
-              <div id="modalInfo">
-                <div id="modalTitle"></div>
-                <div id="modalAuthors"></div>
-                <div id="modalContents"></div>
-                <div id="modalDate"></div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+    <!-- Modal -->
+    <div class="modal" id="bookInfoModal">
+      <div style="text-align: right">
+        <button
+          type="button"
+          class="btn-close float-right"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
 
+      <div class="modal-body">
+        <div><img src="" alt="" id="modalThumbnail" /></div>
+        <div id="modalInfo">
+          <div id="modalTitle"></div>
+          <div id="modalAuthors"></div>
+          <div id="modalContents"></div>
+          <div id="modalDate"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal_bg"></div>
+
+    <div id="wrapper">
       <!-- 검색 섹션 -->
       <section id="section_left">
         <div id="wrap">
@@ -82,19 +66,17 @@
               id="thumbnail"
               style="width: 100px"
             />
-            <!-- 지금 책갈피를 만들어보세요. -->
-            <p id="title"></p>
+            <p id="title">당신의 책갈피를 만들어보세요.</p>
+            <p id="author">Write your bookmark</p>
           </div>
 
           <!-- search bar -->
           <div class="input-container">
             <input
               id="bookName"
-              class="effect-1"
               type="text"
               value=""
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='책 제목을 검색하세요.'"
+              placeholder="제목 검색"
               onkeydown="if (event.keyCode == 13) search();"
             />
             <span class="focus-border"></span>
@@ -107,9 +89,9 @@
               id="comment"
               cols="30"
               rows="3"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='책갈피 내용을 입력하세요.'"
-            ></textarea>
+              placeholder="책갈피 내용을 입력하세요."
+            ></textarea
+            ><br />
             <button id="commentSaveBt" onclick="saveComment()">저장</button>
           </form>
         </div>

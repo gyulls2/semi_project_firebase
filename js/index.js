@@ -1,6 +1,7 @@
 const REST_API_KEY = "8ff342306e1b7d862d5f75fbc30bb978";
 let bookInfo = {};
 
+
 // 도서정보 get으로 읽어와서 책갈피 div 생성
 $.get("http://localhost:4000/books", function(data){
   // console.log(JSON.stringify(data), status);
@@ -8,9 +9,6 @@ $.get("http://localhost:4000/books", function(data){
     createDIV(response)
   });
 });
-
-// 책갈피 생성 애니메이션
-
 
 
 // 검색 버튼 클릭 시 GET으로 도서 api 요청
@@ -40,16 +38,23 @@ function search(){
         bookInfo.authors = authors;
         bookInfo.contents = contents;
         bookInfo.date = date;
-
-        console.log(bookInfo); 
   
   
         // 도서 썸네일 이미지, 제목 출력
         document.getElementById("title").innerHTML = `⌜${book.documents[0].title}⌟`;
+        document.getElementById("author").innerHTML = `${book.documents[0].authors[0]} 저`;
         document.getElementById("thumbnail").src = book.documents[0].thumbnail;
   
-        // 코멘트 입력폼 노출
-        document.getElementById("commentForm").style.display = "block";
+
+        if(matchMedia("screen and (max-width: 767px)").matches){ 
+          // 화면 크기가 767px이하일때
+          // 코멘트 입력폼 노출
+          document.querySelector(".searchResult").style.display = "block";
+          document.getElementById("commentForm").style.display = "block";
+   
+          document.querySelector("#section_left").style.height = "410px";
+          document.getElementById("comment").rows = "7";
+        }
       })
       .fail(function(e){
         console.log(e.responseJSON);
@@ -57,17 +62,16 @@ function search(){
       });
 }
 
+
 // 코멘트 저장 버튼 클릭 시 이벤트
 function saveComment(){
-  // e.preventDefault();
+  let comment = document.getElementById("comment");
 
-  let comment = document.getElementById("comment").value;
-  bookInfo.comment = comment;
-  
-  // console.log(bookInfo);
-  
+  // 정규표현식 사용 개행문자\n -> <br> 치환 
+  let commentValue = comment.value.replace(/(\n|\r\n)/g, '<br>');
+  bookInfo.comment = commentValue;
+    
   const json = JSON.stringify(bookInfo);
-
   // 도서정보 post로 저장
   $.ajax({
     url: "http://localhost:4000/books", //주소
@@ -110,20 +114,44 @@ function saveComment(){
     let elem = document.querySelector('.grid');
     let msnry = new Masonry( elem, {
       itemSelector: ".grid-item",
-      gutter: 20
+      gutter: 20,
+      originTop: false,
     });
 
     // 스크롤 이벤트
     ScrollReveal().reveal(".bookMark", { 
-      interval: 150,
+      interval: 100,
       reset: true,
+      origin: "top",
+      // delay: 500,
      });
   }
 
+
 // 모달 띄우기
 function showModal(div){
-  div.setAttribute("data-bs-toggle", "modal");
-  div.setAttribute("data-bs-target", "#bookInfoModal");
+  // 모달 위치
+  let w = ($(window).width()/2)-($(".modal").width()/2);
+  let h = ($(window).height()/2)-($(".modal").height()/2);
+
+  $(".modal").css({
+    left : w, top : h
+  });
+
+  $(div).click(function(){
+    $(".modal").fadeIn("slow");
+     $(".modal_bg").fadeIn("slow");
+  });
+ 
+  $(".modal_bg").click(function(){
+     $(".modal").fadeOut("slow");
+     $(".modal_bg").fadeOut("slow");
+  })
+
+  $(".btn-close").click(function(){
+    $(".modal").fadeOut("slow");
+    $(".modal_bg").fadeOut("slow");
+  })
   
   modalInput(div)
 }
@@ -137,10 +165,10 @@ function modalInput(div){
     data.forEach((response) => {
       if(thisTitle == response["title"]){
         document.getElementById("modalThumbnail").src = response["thumbnail"];
-        document.getElementById("modalTitle").innerHTML = `<b>제목</b> : ${response["title"]}`;
+        document.getElementById("modalTitle").innerHTML = `${response["title"]}<br><br>`;
         document.getElementById("modalAuthors").innerHTML = `<b>작가</b> : ${response["authors[]"]}`;
         document.getElementById("modalContents").innerHTML = `<b>줄거리</b> : ${response["contents"]} ...`;
-        document.getElementById("modalDate").innerHTML = `${response["date"]}`;
+        document.getElementById("modalDate").innerHTML = `${response["date"]} 기록`;
       }
     });
   });
@@ -165,3 +193,14 @@ function dateFormat(date) {
 function fadeIn(){
   document.querySelector(".mainTitle").style.opacity = "1";
 }
+
+
+// 화면 사이즈 변경 시, 새로고침
+window.onresize = function(){
+  document.location.reload();
+};
+
+
+
+
+
