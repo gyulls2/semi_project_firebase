@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- 외부 CSS -->
+    <link rel="stylesheet" href="./css/index.css" />
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="#" />
+
+    <!-- scrollreveal CDN -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- masonry CDN -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <title>Document</title>
+  </head>
+  <body onload="fadeIn()">
+    <div id="wrapper">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="bookInfoModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            <div class="modal-body">
+              <div><img src="" alt="" id="modalThumbnail" /></div>
+              <div id="modalInfo">
+                <div id="modalTitle"></div>
+                <div id="modalAuthors"></div>
+                <div id="modalContents"></div>
+                <div id="modalDate"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 검색 섹션 -->
+      <section id="section_left">
+        <div id="wrap">
+          <div class="mainTitle">
+            <h1>갈피를 잡다.</h1>
+          </div>
+          <div class="searchResult">
+            <img
+              src="./images/defult_book.jpg"
+              alt=""
+              id="thumbnail"
+              style="width: 100px"
+            />
+            <!-- 지금 책갈피를 만들어보세요. -->
+            <p id="title"></p>
+          </div>
+
+          <!-- search bar -->
+          <div class="input-container">
+            <input
+              id="bookName"
+              class="effect-1"
+              type="text"
+              value=""
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='책 제목을 검색하세요.'"
+              onkeydown="if (event.keyCode == 13) search();"
+            />
+            <span class="focus-border"></span>
+          </div>
+
+          <!-- 코멘트 등록 폼 -->
+          <form id="commentForm" method="POST">
+            <textarea
+              name="comment"
+              id="comment"
+              cols="30"
+              rows="3"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='책갈피 내용을 입력하세요.'"
+            ></textarea>
+            <button id="commentSaveBt" onclick="saveComment()">저장</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 책갈피 섹션 -->
+      <section id="section_right">
+        <div id="container" class="grid"></div>
+      </section>
+    </div>
+
+    <!-- 외부 js -->
+    <script src="./js/index.js"></script>
+
+    <!-- scrollreveal plugin -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

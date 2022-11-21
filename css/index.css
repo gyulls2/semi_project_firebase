@@ -1,0 +1,166 @@
+@font-face {
+  font-family: 'SunBatang-Light';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/SunBatang-Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+input, textarea{
+  outline: none;
+}
+
+html,body{
+  width: 100vw;
+  height: 100vh;
+  background: #F0E4D8;
+  font-family: 'SunBatang-Light';
+}
+
+
+#wrapper{
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+}
+
+/* 왼쪽 검색 섹션 */
+#section_left{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#wrap{
+  width: 80%;
+  height:60%;
+  justify-content: center;
+  align-items: center;
+  /* display: flex; */
+  /* flex-flow: column wrap; */
+  /* justify-content:flex-start; */
+  /* align-items: flex-start; */
+}
+
+.mainTitle{
+  opacity: 0;
+  transition: 5s;
+  margin-bottom: 50px;
+}
+
+
+
+#title{
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+#commentForm{
+  display: block;
+  flex-direction: column;
+}
+
+#comment{
+  resize: none;
+  background: inherit;
+  border-radius: 2px;
+  border: 1px solid #111;
+  letter-spacing: 1px;
+  padding: 5px;
+
+}
+
+#commentSaveBt{
+  width: 50px;
+  height: 30px;
+  margin-top: 10px;
+  border:1px solid #B05044;
+}
+
+/* search bar */
+:focus{outline: none;}
+
+.input-container{float: left; width: 300px; margin: 20px 0; position: relative;} 
+
+input[type="text"] {
+  font: 15px/24px;
+  color: #1d9af2;
+  width: 70%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  background-color: inherit;
+  border: none;
+}
+
+.effect-1~.focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3399FF;
+  transition: 0.4s;
+}
+
+.effect-1:focus~.focus-border {
+  width: 70%;
+  transition: 0.4s;
+}
+
+.searchResult img{
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px;
+}
+
+
+
+
+
+
+/* 오른쪽 책갈피 섹션 */
+#section_right{
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+#container{
+  width: 100%;
+  padding: 30px;
+}
+
+.bookMark{
+  width: 180px;
+  background: #2F4842;
+  color: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.commentBox{
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+
+.titleBox{
+  font-size: 10px;
+  margin-top: 20px;
+}
+
+/* 태블릿용 css */
+@media all and (max-width:768px) {  }
+
+
+
+/* 모바일용 css */
+@media all and (max-width:320px) { }

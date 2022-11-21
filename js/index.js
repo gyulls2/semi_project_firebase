@@ -2,12 +2,15 @@ const REST_API_KEY = "8ff342306e1b7d862d5f75fbc30bb978";
 let bookInfo = {};
 
 // 도서정보 get으로 읽어와서 책갈피 div 생성
-  $.get("http://localhost:4000/books", function(data){
-    // console.log(JSON.stringify(data), status);
-    data.forEach((response) => {
-      createDIV(response)
-    });
+$.get("http://localhost:4000/books", function(data){
+  // console.log(JSON.stringify(data), status);
+  data.forEach((response) => {
+    createDIV(response)
   });
+});
+
+// 책갈피 생성 애니메이션
+
 
 
 // 검색 버튼 클릭 시 GET으로 도서 api 요청
@@ -42,7 +45,7 @@ function search(){
   
   
         // 도서 썸네일 이미지, 제목 출력
-        document.getElementById("title").innerHTML = book.documents[0].title;
+        document.getElementById("title").innerHTML = `⌜${book.documents[0].title}⌟`;
         document.getElementById("thumbnail").src = book.documents[0].thumbnail;
   
         // 코멘트 입력폼 노출
@@ -54,7 +57,6 @@ function search(){
       });
 }
 
-
 // 코멘트 저장 버튼 클릭 시 이벤트
 function saveComment(){
   // e.preventDefault();
@@ -65,8 +67,6 @@ function saveComment(){
   // console.log(bookInfo);
   
   const json = JSON.stringify(bookInfo);
-  // console.log(json);
-
 
   // 도서정보 post로 저장
   $.ajax({
@@ -80,19 +80,45 @@ function saveComment(){
     });
 }
 
-
-
-
   // container 안에 자식 노드로 div 생성
-function createDIV(response){
-  let bookMark = document.createElement("div"); 
-  bookMark.setAttribute("class", "bookMark");
-  bookMark.setAttribute("onclick", "showModal(this)");
-  document.getElementById("container").prepend(bookMark);
-  bookMark.innerHTML = `<div class='commentBox'>${response.comment}</div>
-  <div class='titleBox'>${response.title}</div>`;
-}
+  function createDIV(response){
+    let colorList = ["#B05044","#2F4842","#B77855","#D88269","#86A5A8"];
 
+    let bookMark = document.createElement("div"); 
+    bookMark.setAttribute("class", "bookMark grid-item");
+    bookMark.setAttribute("onclick", "showModal(this)");
+    document.getElementById("container").appendChild(bookMark);
+    bookMark.innerHTML = `<div class='commentBox'>${response.comment}</div>
+    <div class='titleBox'>${response.title}</div>`;
+
+   // 배경색 변경
+   let bookMarks = document.getElementsByClassName("bookMark");
+
+   for(let i = 0; i<bookMarks.length; i++){
+    if(i%5 == 0) {
+      bookMarks[i].style.background = colorList[0];
+    } else if(i%5 == 1) {
+      bookMarks[i].style.background = colorList[1];
+    } else if(i%5 == 2) {
+      bookMarks[i].style.background = colorList[2];
+    } else if(i%5 == 3) {
+      bookMarks[i].style.background = colorList[3];
+    } else bookMarks[i].style.background = colorList[4];
+   }
+  
+  // masonry 레이아웃
+    let elem = document.querySelector('.grid');
+    let msnry = new Masonry( elem, {
+      itemSelector: ".grid-item",
+      gutter: 20
+    });
+
+    // 스크롤 이벤트
+    ScrollReveal().reveal(".bookMark", { 
+      interval: 150,
+      reset: true,
+     });
+  }
 
 // 모달 띄우기
 function showModal(div){
@@ -133,4 +159,9 @@ function dateFormat(date) {
   minute = minute >= 10 ? minute : '0' + minute;
 
   return date.getFullYear() + '.' + month + '.' + day + ' ' + hour + ':' + minute;
+}
+
+// title fade-in 이벤트
+function fadeIn(){
+  document.querySelector(".mainTitle").style.opacity = "1";
 }
