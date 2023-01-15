@@ -3,7 +3,8 @@
 <br/>
 
 🔗 배포 URL : [🔖 갈피를 잡다](https://sesac-5cabd.web.app/)   <br/>
-🔗 velog 회고록 : [[새싹 프론트엔드] JavaScript Semi-Project 독서 기록 서비스(갈피를 잡다) 회고](https://velog.io/@tangerine/SeSAC-JavaScript-Semi-Project)
+🔗 velog 회고록 : [[새싹 프론트엔드] JavaScript Semi-Project 독서 기록 서비스(갈피를 잡다) 회고](https://velog.io/@tangerine/SeSAC-JavaScript-Semi-Project)  <br/>
+🔗 발표 자료 : [갈피를 잡다 PPT](https://github.com/gyulls2/semi_project_firebase/images/presentation.pdf) 
 <br/><br/><br/>
 
 ## 🔖 프로젝트 소개
