@@ -69,7 +69,7 @@ body {
 
 .close {
   display: inline-block;
-  *display: inline;
+  /* display: inline; */
   cursor: pointer;
 }
 .close::after {
@@ -135,7 +135,7 @@ body {
 }
 
 .mainTitle {
-  opacity: 0;
+  /* opacity: 0; */
   margin-bottom: 50px;
   /* transition: 5s; */
 }

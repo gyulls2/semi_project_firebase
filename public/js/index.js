@@ -1,4 +1,4 @@
-const REST_API_KEY = "8ff342306e1b7d862d5f75fbc30bb978";
+const REST_API_KEY = config.apikey;
 let bookInfo = {};
 let count = 0;
 
