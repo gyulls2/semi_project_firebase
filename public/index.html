@@ -21,7 +21,8 @@
   <!-- masonry CDN -->
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
-  <!-- 외부 CSS -->
+  <!-- style CSS -->
+  <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/index.css" />
   <title>갈피를 잡다</title>
 </head>
@@ -29,17 +30,19 @@
 <body>
   <!-- Modal -->
   <div class="modal" id="bookInfoModal">
-    <div style="text-align: right">
-      <div class="close"></div>
-    </div>
+    <div class="modal-wrapper">
+      <div class="modal-body">
+        <div><img src="" alt="" id="modalThumbnail" /></div>
+        <div id="modalInfo">
+          <div id="modalTitle"></div>
+          <div id="modalAuthors"></div>
+          <div id="modalContents"></div>
+          <div id="modalDate"></div>
+        </div>
+      </div>
 
-    <div class="modal-body">
-      <div><img src="" alt="" id="modalThumbnail" /></div>
-      <div id="modalInfo">
-        <div id="modalTitle"></div>
-        <div id="modalAuthors"></div>
-        <div id="modalContents"></div>
-        <div id="modalDate"></div>
+      <div class="modal-close">
+        <button class="close"></button>
       </div>
     </div>
   </div>
