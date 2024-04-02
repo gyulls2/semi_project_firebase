@@ -148,16 +148,8 @@ function createDIV(response) {
 }
 
 // 모달 띄우기
+// TODO : 바닐라로 변경
 function showModal(div) {
-  // 모달 위치
-  let w = $(window).width() / 2 - $(".modal").width() / 2;
-  let h = $(window).height() / 2 - $(".modal").height() / 2;
-
-  $(".modal").css({
-    left: w,
-    top: h,
-  });
-
   $(".modal").fadeIn("slow");
   $(".modal_bg").fadeIn("slow");
 
