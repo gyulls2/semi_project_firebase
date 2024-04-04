@@ -11,12 +11,15 @@
   padding: 0;
 }
 
-.modal-body {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.modal-body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+.a11y-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
 }
 
 input,
@@ -36,25 +39,10 @@ body {
   width: 80%;
   height: 100%;
   margin: 0 auto;
-  /* display: flex; */
   position: relative;
 }
 
-/* modal */
-.modal {
-  width: 600px;
-  height: 450px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 99999;
-  background: #fff;
-  border-radius: 30px;
-  display: none;
-  padding: 10px 30px 40px 30px;
-  overflow: hidden;
-}
-
+/* modal ---------------------------------------------------- */
 .modal_bg {
   width: 100%;
   height: 100%;
@@ -67,57 +55,85 @@ body {
   display: none;
 }
 
-.close {
-  display: inline-block;
-  *display: inline;
-  cursor: pointer;
+.modal {
+  width: 600px;
+  height: auto;
+  padding: 20px 30px;
+  z-index: 99999;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: #fff;
+  border-radius: 30px;
+  display: none;
+  overflow: hidden;
 }
-.close::after {
+
+.modal .modal-wrapper {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.modal .modal-wrapper .modal-close {
+  order: 1;
+  text-align: right;
+}
+
+.modal .modal-wrapper .modal-close .close {
+  display: inline-block;
+}
+
+.modal .modal-wrapper .modal-close .close::after {
   display: inline-block;
   content: "\00d7";
   font-size: 25pt;
   color: #aaa;
 }
-.close:hover::after {
+.modal .modal-wrapper .modal-close .close:hover::after {
   color: #111;
-  transition: 0.3s;
 }
 
-.modal-body {
+.modal .modal-wrapper .modal-body {
   position: relative;
-  height: 100%;
   width: 100%;
-  /* background-color: #2F4842; */
-  top: -10px;
+  order: 2;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-#modalThumbnail {
+.modal-body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.modal .modal-wrapper .modal-body #modalThumbnail {
   float: left;
   width: 35%;
-  border-radius: 10px;
-  transform: translateY(5%);
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 10px;
 }
 
-#modalInfo {
+.modal .modal-wrapper .modal-body #modalInfo {
   float: right;
   width: 60%;
   font-size: 14px;
 }
 
-#modalTitle {
+.modal .modal-wrapper .modal-body #modalInfo #modalTitle {
   font-weight: bold;
   font-size: 16px;
 }
 
-#modalDate {
-  position: absolute;
-  bottom: 30px;
-  right: 20px;
+.modal .modal-wrapper .modal-body #modalInfo #modalDate {
+  margin-top: 30px;
+  text-align: right;
   color: #aaa;
 }
 
-/* 왼쪽 검색 섹션 */
+/* 왼쪽 검색 섹션 ----------------------------------------------------*/
 #section_left {
   width: 30%;
   height: 100%;
@@ -135,19 +151,22 @@ body {
 }
 
 .mainTitle {
-  opacity: 0;
   margin-bottom: 50px;
-  /* transition: 5s; */
 }
 
-#title {
+#section_left #wrap .searchResult img {
+  width: 120px;
+}
+
+#section_left #wrap .searchResult #title {
   font-size: 15px;
   margin-top: 20px;
 }
-#author {
+
+#section_left #wrap .searchResult #author {
   font-size: 12px;
   color: #aaa;
-  margin-top: -10px;
+  margin-top: 4px;
   margin-bottom: 0;
 }
 
@@ -183,7 +202,7 @@ body {
   cursor: pointer;
 }
 
-/* search bar */
+/* 제목 검색 폼 ---------------------------------------------------------- */
 .input-container {
   width: 300px;
   margin: 15px 0;
@@ -219,7 +238,7 @@ input[type="text"] {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px;
 }
 
-/* 오른쪽 책갈피 섹션 */
+/* 오른쪽 책갈피 섹션 -------------------------------------------------- */
 #section_right {
   width: 60%;
   height: 100%;
@@ -248,7 +267,6 @@ input[type="text"] {
 
 .titleBox {
   font-size: 10px;
-  /* margin-bottom: 10px; */
 }
 
 .searchSort {
@@ -258,7 +276,7 @@ input[type="text"] {
   padding-top: 10px;
 }
 
-/* 검색 */
+/* 검색 --------------------------------------------------------------- */
 
 .form {
   position: fixed;
@@ -345,7 +363,7 @@ input[type="text"] {
   z-index: 99;
 }
 
-/* 모바일용 css */
+/* 모바일용 css ------------------------------------------------------- */
 @media all and (max-width: 768px) {
   html,
   body {
@@ -358,45 +376,41 @@ input[type="text"] {
 
   .modal {
     width: 70%;
-    min-height: 450px;
-    height: 650px;
     overflow: hidden;
     padding: 20px;
   }
 
   .modal-body {
     position: relative;
-    height: 100%;
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    display: flex;
+    flex-flow: column wrap;
   }
 
   #modalThumbnail {
-    float: none;
     display: block;
     width: 50%;
     margin: 0 auto;
     transform: translateY(0);
   }
 
-  #modalInfo {
-    float: none;
+  .modal .modal-wrapper .modal-body #modalInfo {
     width: 100%;
     font-size: 14px;
-    position: relative;
   }
 
   #modalTitle {
     font-weight: bold;
     font-size: 16px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   #modalDate {
     position: static;
-    margin: 20px 0;
+    margin: 20px 0 0 0;
     text-align: right;
   }
 
@@ -407,7 +421,7 @@ input[type="text"] {
 
   #section_left {
     width: 100%;
-    height: 180px;
+    height: auto;
     background: #f0e4d8;
     position: relative;
     display: block;
@@ -419,40 +433,51 @@ input[type="text"] {
   #section_right {
     width: 100%;
     height: 75%;
-    position: absolute;
-    margin-top: 180px;
+    margin-top: 210px;
+  }
+
+  #section_left #wrap {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
   }
 
   .searchResult {
     display: none;
-    position: absolute;
-    width: 45%;
-    margin-top: 55px;
+    left: 50px;
+    width: 30%;
     padding: 0 10px;
-    text-align: center;
-    margin-left: -30px;
+    order: 3;
   }
 
   #commentForm {
     display: none;
-    position: absolute;
-    width: 45%;
-    left: 50%;
-    margin-top: 5px;
+    width: 65%;
+    order: 4;
+  }
+
+  #commentForm #comment {
+    width: 100%;
   }
 
   #commentSaveBt {
     float: right;
-    margin-right: 20%;
   }
 
   .mainTitle {
+    width: 100%;
     margin-bottom: 25px;
-    transition: 5s;
+    order: 1;
+  }
+
+  #section_left #wrap .input-container {
+    width: 100%;
+    order: 2;
   }
 
   input[type="text"] {
-    width: 380px;
+    width: 100%;
   }
 
   #container {

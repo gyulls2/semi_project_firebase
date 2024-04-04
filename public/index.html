@@ -1,160 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<html lang="ko">
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-    <!-- animate -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="./images/favicon-32x32.png" />
+  <!-- animate -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-    <!-- masonry CDN -->
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="./images/favicon-32x32.png" />
 
-    <!-- 외부 CSS -->
-    <link rel="stylesheet" href="./css/index.css" />
-    <title>갈피를 잡다</title>
-  </head>
-  <body onload="fadeIn()">
-    <!-- Modal -->
-    <div class="modal" id="bookInfoModal">
-      <div style="text-align: right">
-        <div class="close"></div>
-      </div>
+  <!-- masonry CDN -->
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
+  <!-- style CSS -->
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/index.css" />
+  <title>갈피를 잡다</title>
+</head>
+
+<body>
+  <!-- Modal -->
+  <div class="modal" id="bookInfoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+    aria-describedby="modalContents">
+    <div class="modal-wrapper">
       <div class="modal-body">
-        <div><img src="" alt="" id="modalThumbnail" /></div>
+        <img src="" alt="" id="modalThumbnail" />
         <div id="modalInfo">
-          <div id="modalTitle"></div>
-          <div id="modalAuthors"></div>
-          <div id="modalContents"></div>
-          <div id="modalDate"></div>
+          <h2 id="modalTitle">책 제목</h2>
+          <div id="modalAuthors">저자 정보</div>
+          <div id="modalContents">책 내용 요약</div>
+          <div id="modalDate">책갈피 기록 날짜</div>
         </div>
       </div>
+
+      <div class="modal-close">
+        <button class="close" aria-label="모달 닫기 버튼">
+        </button>
+      </div>
     </div>
-    <div class="modal_bg"></div>
+  </div>
+  <div class="modal_bg"></div>
 
-    <div id="wrapper">
-      <!-- 검색 섹션 -->
-      <section id="section_left">
-        <div id="wrap">
-          <div class="mainTitle">
-            <h1>갈피를 잡다.</h1>
-          </div>
-          <div class="searchResult">
-            <img
-              src="./images/defult_book.jpg"
-              alt=""
-              id="thumbnail"
-              style="width: 120px"
-            />
-            <p id="title">당신의 책갈피를 만들어보세요.</p>
-            <p id="author">Write your bookmark</p>
-          </div>
-
-          <!-- search bar -->
-          <div class="input-container">
-            <input
-              id="bookName"
-              type="text"
-              value=""
-              placeholder="제목 검색"
-              onkeydown="if (event.keyCode == 13) search();"
-            />
-            <span class="focus-border"></span>
-          </div>
-
-          <!-- 코멘트 등록 폼 -->
-          <form id="commentForm">
-            <textarea
-              name="comment"
-              id="comment"
-              cols="30"
-              rows="3"
-              placeholder="책갈피 내용을 입력하세요."
-            ></textarea
-            ><br />
-            <button id="commentSaveBt" onclick="saveComment()" type="button">
-              저장
-            </button>
-          </form>
-        </div>
-      </section>
-
-      <!-- 책갈피 섹션 -->
-      <section id="section_right">
-        <div class="searchSort">
-          <!-- 검색 -->
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-            integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-            crossorigin="anonymous"
-          />
-
-          <form action="" class="form">
-            <input
-              id="searchInput"
-              type="search"
-              required
-              value=""
-              onkeydown="if (event.keyCode == 13) searchBookMarks();"
-            />
-            <i class="fa fa-search"></i>
-            <a href="javascript:void(0)" id="clear-btn">Clear</a>
-          </form>
-          <!-- 정렬 -->
-          <div class="sort">
-            <span class="sortBtn badge bg-light text-dark ms-auto mx-3"
-              >최신순 🔄</span
-            >
-          </div>
+  <div id="wrapper">
+    <!-- 검색 섹션 -->
+    <section id="section_left">
+      <div id="wrap">
+        <header class="mainTitle">
+          <h1>갈피를 잡다.</h1>
+        </header>
+        <div class="searchResult">
+          <img src="./images/defult_book.jpg" alt="" id="thumbnail" />
+          <h2 id="title">당신의 책갈피를 만들어보세요.</h2>
+          <p id="author">Write your bookmark</p>
         </div>
 
-        <div id="container" class="grid"></div>
-      </section>
-    </div>
+        <!-- 제목 검색 폼 -->
+        <div class="input-container">
+          <input id="bookName" type="text" value="" placeholder="제목 검색" onkeydown="if (event.keyCode == 13) search();"
+            aria-label="제목 검색" />
+          <span class="focus-border"></span>
+        </div>
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
+        <!-- 코멘트 등록 폼 -->
+        <form id="commentForm">
+          <textarea name="comment" id="comment" cols="30" rows="3" placeholder="책갈피 내용을 입력하세요."
+            aria-label="코멘트 등록"></textarea>
+          <br />
+          <button id="commentSaveBt" onclick="saveComment()" type="button">
+            저장
+          </button>
+        </form>
+      </div>
+    </section>
 
-    <!-- firebase -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <!-- 책갈피 섹션 -->
+    <section id="section_right">
+      <div class="searchSort">
+        <!-- 책갈피 검색 -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
 
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyBPoz5GAtQLEaVaCyX23nNAzj8O3V2pLfA",
-        authDomain: "sesac-5cabd.firebaseapp.com",
-        projectId: "sesac-5cabd",
-        storageBucket: "sesac-5cabd.appspot.com",
-        messagingSenderId: "6184164126",
-        appId: "1:6184164126:web:0321a0fa2a30cab231070f",
-      };
-      firebase.initializeApp(firebaseConfig);
-    </script>
+        <form action="" class="form">
+          <input id="searchInput" type="search" required value=""
+            onkeydown="if (event.keyCode == 13) searchBookMarks();" aria-label="책갈피 검색" />
+          <i class="fa fa-search"></i>
+          <a href="javascript:void(0)" id="clear-btn">Clear</a>
+        </form>
+        <!-- 정렬 -->
+        <div class="sort">
+          <span class="sortBtn badge bg-light text-dark ms-auto mx-3">최신순 🔄</span>
+        </div>
+      </div>
 
-    <!-- 외부 js -->
-    <script type="text/javascript" src="./js/index.js"></script>
-  </body>
+      <main id="container" class="grid"></main>
+    </section>
+  </div>
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+  <script type="text/javascript" src="./js/firebaseConfig.js"></script>
+
+  <!-- 외부 js -->
+  <script type="text/javascript" src="./js/apiConfig.js"></script>
+  <script type="text/javascript" src="./js/index.js"></script>
+</body>
+
 </html>
