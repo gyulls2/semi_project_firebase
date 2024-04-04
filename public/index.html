@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8" />
@@ -29,15 +29,16 @@
 
 <body>
   <!-- Modal -->
-  <div class="modal" id="bookInfoModal">
+  <div class="modal" id="bookInfoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+    aria-describedby="modalContents">
     <div class="modal-wrapper">
       <div class="modal-body">
         <img src="" alt="" id="modalThumbnail" />
         <div id="modalInfo">
-          <div id="modalTitle"></div>
-          <div id="modalAuthors"></div>
-          <div id="modalContents"></div>
-          <div id="modalDate"></div>
+          <h2 id="modalTitle">책 제목</h2>
+          <div id="modalAuthors">저자 정보</div>
+          <div id="modalContents">책 내용 요약</div>
+          <div id="modalDate">책갈피 기록 날짜</div>
         </div>
       </div>
 
@@ -53,25 +54,26 @@
     <!-- 검색 섹션 -->
     <section id="section_left">
       <div id="wrap">
-        <div class="mainTitle">
+        <header class="mainTitle">
           <h1>갈피를 잡다.</h1>
-        </div>
+        </header>
         <div class="searchResult">
-          <img src="./images/defult_book.jpg" alt="" id="thumbnail" style="width: 120px" />
-          <p id="title">당신의 책갈피를 만들어보세요.</p>
+          <img src="./images/defult_book.jpg" alt="" id="thumbnail" />
+          <h2 id="title">당신의 책갈피를 만들어보세요.</h2>
           <p id="author">Write your bookmark</p>
         </div>
 
-        <!-- search bar -->
+        <!-- 제목 검색 폼 -->
         <div class="input-container">
-          <input id="bookName" type="text" value="" placeholder="제목 검색"
-            onkeydown="if (event.keyCode == 13) search();" />
+          <input id="bookName" type="text" value="" placeholder="제목 검색" onkeydown="if (event.keyCode == 13) search();"
+            aria-label="제목 검색" />
           <span class="focus-border"></span>
         </div>
 
         <!-- 코멘트 등록 폼 -->
         <form id="commentForm">
-          <textarea name="comment" id="comment" cols="30" rows="3" placeholder="책갈피 내용을 입력하세요."></textarea>
+          <textarea name="comment" id="comment" cols="30" rows="3" placeholder="책갈피 내용을 입력하세요."
+            aria-label="코멘트 등록"></textarea>
           <br />
           <button id="commentSaveBt" onclick="saveComment()" type="button">
             저장
@@ -83,13 +85,13 @@
     <!-- 책갈피 섹션 -->
     <section id="section_right">
       <div class="searchSort">
-        <!-- 검색 -->
+        <!-- 책갈피 검색 -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
 
         <form action="" class="form">
           <input id="searchInput" type="search" required value=""
-            onkeydown="if (event.keyCode == 13) searchBookMarks();" />
+            onkeydown="if (event.keyCode == 13) searchBookMarks();" aria-label="책갈피 검색" />
           <i class="fa fa-search"></i>
           <a href="javascript:void(0)" id="clear-btn">Clear</a>
         </form>
@@ -99,7 +101,7 @@
         </div>
       </div>
 
-      <div id="container" class="grid"></div>
+      <main id="container" class="grid"></main>
     </section>
   </div>
 
