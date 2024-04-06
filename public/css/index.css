@@ -58,7 +58,7 @@ body {
 .modal {
   width: 600px;
   height: auto;
-  padding: 20px 30px;
+  padding: 20px 40px 40px 40px;
   z-index: 99999;
 
   position: fixed;
@@ -80,6 +80,7 @@ body {
 .modal .modal-wrapper .modal-close {
   order: 1;
   text-align: right;
+  margin-bottom: 20px;
 }
 
 .modal .modal-wrapper .modal-close .close {
@@ -154,12 +155,18 @@ body {
   margin-bottom: 50px;
 }
 
+.mainTitle h1 {
+  font-size: 40px;
+  font-weight: normal;
+}
+
 #section_left #wrap .searchResult img {
   width: 120px;
 }
 
 #section_left #wrap .searchResult #title {
   font-size: 15px;
+  font-weight: normal;
   margin-top: 20px;
 }
 
@@ -223,7 +230,7 @@ input[type="text"] {
 }
 
 .input-container::before {
-  background: url("../images/search.png") no-repeat;
+  background: url("../images/search.png") no-repeat left -2px;
   background-size: 17px;
   content: "";
   display: inline-block;
@@ -274,9 +281,20 @@ input[type="text"] {
   right: 0;
   top: 0;
   padding-top: 10px;
+
+  z-index: 99;
 }
 
-/* 검색 --------------------------------------------------------------- */
+.sortBtn {
+  margin: 5px 20px;
+  padding: 6px;
+  font-size: 12px;
+  background-color: #fff;
+
+  border-radius: 10px;
+}
+
+/* 책갈피 검색 ------------------------------------------------------------- */
 
 .form {
   position: fixed;
@@ -359,10 +377,6 @@ input[type="text"] {
   display: block;
 }
 
-.searchSort {
-  z-index: 99;
-}
-
 /* 모바일용 css ------------------------------------------------------- */
 @media all and (max-width: 768px) {
   html,
@@ -377,7 +391,7 @@ input[type="text"] {
   .modal {
     width: 70%;
     overflow: hidden;
-    padding: 20px;
+    padding: 30px;
   }
 
   .modal-body {
