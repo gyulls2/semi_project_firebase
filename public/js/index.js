@@ -12,7 +12,6 @@ db.collection("bookmark")
       // 도서정보 get으로 읽어와서 책갈피 div 생성
       count += 1;
       createDIV(doc.data());
-      console.log(count);
     });
   });
 
@@ -139,12 +138,12 @@ function createDIV(response) {
   });
 
   // 스크롤 이벤트
-  //   ScrollReveal().reveal(".bookMark", {
-  //     interval: 100,
-  //     reset: true,
-  //     origin: "top",
-  //     // delay: 500,
-  //   });
+  // ScrollReveal().reveal(".bookMark", {
+  //   interval: 100,
+  //   reset: true,
+  //   origin: "top",
+  //   // delay: 500,
+  // });
 }
 
 // 모달 띄우기
@@ -152,15 +151,20 @@ function createDIV(response) {
 function showModal(div) {
   $(".modal").fadeIn("slow");
   $(".modal_bg").fadeIn("slow");
+  // 모달 내 첫 번째 포커스 가능한 요소에 포커스 이동
+  // $("#bookInfoModal").find("button.close").focus();
+  trapFocus('#bookInfoModal');
 
   $(".modal_bg").click(function () {
     $(".modal").fadeOut("slow");
     $(".modal_bg").fadeOut("slow");
+    $('#bookInfoModal').off('keydown');
   });
 
   $(".close").click(function () {
     $(".modal").fadeOut("slow");
     $(".modal_bg").fadeOut("slow");
+    $('#bookInfoModal').off('keydown');
   });
 
   modalInput(div);
@@ -170,7 +174,6 @@ function showModal(div) {
 function modalInput(div) {
   // 현재 제목
   thisID = div.getAttribute("id");
-  console.log(thisID);
 
   let docRef = db.collection("bookmark").doc(thisID);
 
@@ -258,3 +261,42 @@ const clearInput = () => {
 
 const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", clearInput);
+
+
+// 포커스 관리
+// TODO : 바닐라로 변경
+function trapFocus(element) {
+  var $focusableElements = $(element).find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])').filter(':visible');
+  var $firstFocusableElement = $focusableElements.first();
+  var $lastFocusableElement = $focusableElements.last();
+
+  // 모달 내 첫 번째 포커스 가능 요소에 포커스를 강제로 이동
+  $firstFocusableElement.addClass('js-focus').focus();
+
+  $(element).on('keydown', function(e) {
+    var isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+    let isEscPressed = e.key === 'Escape' || e.keyCode === 27;
+
+    if (isEscPressed) {
+      $(".modal").fadeOut("slow");
+      $(".modal_bg").fadeOut("slow");
+      return;
+    }
+
+    if (!isTabPressed) {
+      return;
+    }
+
+    if (e.shiftKey) /* shift + tab */ {
+      if (document.activeElement === $firstFocusableElement[0]) {
+        $lastFocusableElement.removeClass('js-focus').focus(); // 마지막 요소로 포커스 이동
+        e.preventDefault();
+      }
+    } else /* tab */ {
+      if (document.activeElement === $lastFocusableElement[0]) {
+        $firstFocusableElement.removeClass('js-focus').focus(); // 첫 번째 요소로 포커스 이동
+        e.preventDefault();
+      }
+    }
+  });
+}

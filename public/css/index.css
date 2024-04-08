@@ -35,6 +35,17 @@ body {
   font-family: "SunBatang-Light";
 }
 
+/* 키보드 사용자가 포커스할 때만 아웃라인 표시. */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid black;
+}
+.js-focus:focus {
+  outline: none;
+}
+
 #wrapper {
   width: 80%;
   height: 100%;
