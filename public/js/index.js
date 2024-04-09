@@ -1,4 +1,3 @@
-const REST_API_KEY = config.apikey;
 let bookInfo = {};
 let count = 0;
 
@@ -17,17 +16,26 @@ db.collection("bookmark")
 
 // 검색 버튼 클릭 시 GET으로 도서 api 요청
 function search() {
+  const REST_API_KEY = config.apikey;
   let bookName = document.getElementById("bookName").value;
-  $.ajax({
-    method: "GET",
-    url: "https://dapi.kakao.com/v3/search/book?target=title",
-    data: { query: bookName },
-    headers: { Authorization: `KakaoAK ${REST_API_KEY}` },
-  })
-    .done(function (book) {
+
+  fetch(
+    `https://dapi.kakao.com/v3/search/book?target=title&query=${encodeURIComponent(
+      bookName
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `KakaoAK ${REST_API_KEY}`,
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((book) => {
+      console.log(book);
       let title = book.documents[0].title;
       let thumbnail = book.documents[0].thumbnail;
-      let authors = book.documents[0].authors;
+      let authors = book.documents[0].authors || book.documents[0].publisher;
       let contents = book.documents[0].contents;
 
       // 현재 날짜 불러오기
@@ -47,7 +55,7 @@ function search() {
       ).innerHTML = `⌜${book.documents[0].title}⌟`;
       document.getElementById(
         "author"
-      ).innerHTML = `${book.documents[0].authors[0]} 저`;
+      ).innerHTML = `${book.documents[0].authors[0] || book.documents[0].publisher} 저`;
       document.getElementById("thumbnail").src = book.documents[0].thumbnail;
 
       if (matchMedia("screen and (max-width: 767px)").matches) {
@@ -60,8 +68,8 @@ function search() {
         document.getElementById("comment").rows = "7";
       }
     })
-    .fail(function (e) {
-      console.log(e.responseJSON);
+    .catch((error) => {
+      console.log(error.responseJSON);
       alert("찾으시는 책 정보가 없습니다.");
     });
 }
@@ -129,13 +137,13 @@ function createDIV(response) {
   });
 
   // masonry 겹침
-  $(window).load(function () {
-    var $container = $("#container");
-    $container.masonry({
+  window.onload = function () {
+    var container = document.querySelector("#container");
+    new Masonry(container, {
       itemSelector: ".grid-item",
       gutter: 20,
     });
-  });
+  };
 
   // 스크롤 이벤트
   // ScrollReveal().reveal(".bookMark", {
@@ -147,33 +155,36 @@ function createDIV(response) {
 }
 
 // 모달 띄우기
-// TODO : 바닐라로 변경
 function showModal(div) {
-  $(".modal").fadeIn("slow");
-  $(".modal_bg").fadeIn("slow");
-  // 모달 내 첫 번째 포커스 가능한 요소에 포커스 이동
-  // $("#bookInfoModal").find("button.close").focus();
-  trapFocus('#bookInfoModal');
+  const modal = document.querySelector(".modal");
+  const modalBg = document.querySelector(".modal_bg");
+  const modalBtn = document.querySelector(".close");
 
-  $(".modal_bg").click(function () {
-    $(".modal").fadeOut("slow");
-    $(".modal_bg").fadeOut("slow");
-    $('#bookInfoModal').off('keydown');
-  });
-
-  $(".close").click(function () {
-    $(".modal").fadeOut("slow");
-    $(".modal_bg").fadeOut("slow");
-    $('#bookInfoModal').off('keydown');
-  });
+  modal.classList.add("fade-in");
+  modalBg.classList.add("fade-in");
 
   modalInput(div);
+
+  // 포커스 관리
+  trapFocus(modal);
+
+  // 닫기 버튼 및 배경 클릭 시 모달 닫기
+  modalBg.addEventListener("click", closeModal);
+  modalBtn.addEventListener("click", closeModal);
+
+  function closeModal() {
+    modal.classList.remove("fade-in");
+    modalBg.classList.remove("fade-in");
+
+    modalBg.removeEventListener("click", closeModal);
+    modalBtn.removeEventListener("click", closeModal);
+  }
 }
 
 // 모달에 정보 전송
 function modalInput(div) {
   // 현재 제목
-  thisID = div.getAttribute("id");
+  const thisID = div.getAttribute("id");
 
   let docRef = db.collection("bookmark").doc(thisID);
 
@@ -195,11 +206,12 @@ function modalInput(div) {
         ).innerHTML = `<b>줄거리</b> : ${data["contents"]} ...`;
         document.getElementById("modalDate").innerHTML = `${data["date"]} 기록`;
       } else {
-        console.log("No such document!");
+        alert("책갈피를 찾을 수 없습니다.");
       }
     })
     .catch((error) => {
-      console.log("Error getting document:", error);
+      console.error("문서를 불러오는 중 에러가 발생했습니다:", error);
+      alert("정보를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요.");
     });
 }
 
@@ -218,11 +230,6 @@ function dateFormat(date) {
   return (
     date.getFullYear() + "." + month + "." + day + " " + hour + ":" + minute
   );
-}
-
-// title fade-in 이벤트
-function fadeIn() {
-  document.querySelector(".mainTitle").style.opacity = "1";
 }
 
 // 화면 사이즈 변경 시, 새로고침
@@ -262,39 +269,37 @@ const clearInput = () => {
 const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", clearInput);
 
-
-// 포커스 관리
-// TODO : 바닐라로 변경
+// 모달 포커스 관리
 function trapFocus(element) {
-  var $focusableElements = $(element).find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])').filter(':visible');
-  var $firstFocusableElement = $focusableElements.first();
-  var $lastFocusableElement = $focusableElements.last();
+  const focusableElements = element.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const firstFocusableElement = focusableElements[0];
+  const lastFocusableElement = focusableElements[focusableElements.length - 1];
 
-  // 모달 내 첫 번째 포커스 가능 요소에 포커스를 강제로 이동
-  $firstFocusableElement.addClass('js-focus').focus();
+  firstFocusableElement.focus();
 
-  $(element).on('keydown', function(e) {
-    var isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-    let isEscPressed = e.key === 'Escape' || e.keyCode === 27;
+  document.addEventListener("keydown", function (e) {
+    const isTabPressed = e.key === "Tab";
+    const isEscPressed = e.key === "Escape";
 
     if (isEscPressed) {
-      $(".modal").fadeOut("slow");
-      $(".modal_bg").fadeOut("slow");
+      console.log("isEscPressed");
+      document.querySelector(".modal").classList.remove("fade-in");
+      document.querySelector(".modal_bg").classList.remove("fade-in");
       return;
     }
 
-    if (!isTabPressed) {
-      return;
-    }
+    if (!isTabPressed) return;
 
-    if (e.shiftKey) /* shift + tab */ {
-      if (document.activeElement === $firstFocusableElement[0]) {
-        $lastFocusableElement.removeClass('js-focus').focus(); // 마지막 요소로 포커스 이동
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusableElement) {
+        firstFocusableElement.focus();
         e.preventDefault();
       }
-    } else /* tab */ {
-      if (document.activeElement === $lastFocusableElement[0]) {
-        $firstFocusableElement.removeClass('js-focus').focus(); // 첫 번째 요소로 포커스 이동
+    } else {
+      if (document.activeElement === lastFocusableElement) {
+        firstFocusableElement.focus();
         e.preventDefault();
       }
     }
